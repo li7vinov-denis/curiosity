@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Curiosity", "Curiosity\Curi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Curiosity.Tests", "Curiosity.Tests\Curiosity.Tests.csproj", "{DF235E8C-A342-4B91-9BC0-A5A97315BE0B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Curiosity.Core", "Curiosity.Core\Curiosity.Core.csproj", "{E95089E3-78D0-4BDD-B92C-09D6A9B58EA2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{DF235E8C-A342-4B91-9BC0-A5A97315BE0B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DF235E8C-A342-4B91-9BC0-A5A97315BE0B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DF235E8C-A342-4B91-9BC0-A5A97315BE0B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E95089E3-78D0-4BDD-B92C-09D6A9B58EA2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E95089E3-78D0-4BDD-B92C-09D6A9B58EA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E95089E3-78D0-4BDD-B92C-09D6A9B58EA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E95089E3-78D0-4BDD-B92C-09D6A9B58EA2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
