@@ -15,6 +15,7 @@ public class InputParser
     private const int RobotPositionAndDirectionLength = 3;
     private const int RobotDirectionLength = 1;
     private const int MovementMaximumCount = Configuration.MovementMaximumCount;
+    private const int CoordinateMaximumValue = 50;
 
     private readonly IDictionary<string, DirectionType> _directions = new Dictionary<string, DirectionType>
     {
@@ -91,10 +92,7 @@ public class InputParser
         if (coordinatesRaw.Length != PositionLength)
             throw new InvalidPolygonInputException();
 
-        if (coordinatesRaw.Any(coordinate => !int.TryParse(coordinate, out _)))
-            throw new InvalidPolygonInputException();
-
-        var coordinates = coordinatesRaw.Select(int.Parse).ToArray();
+        var coordinates = TryTransformToCoordinates<InvalidPolygonInputException>(coordinatesRaw);
 
         _parserOutputModel.Polygon =
             new Polygon(new Position(coordinates.FirstOrDefault(), coordinates.LastOrDefault()), _robotInfoAdapter);
@@ -126,15 +124,13 @@ public class InputParser
         if (robotRaw.Length != RobotPositionAndDirectionLength)
             throw new InvalidRobotInputException();
 
-        if (robotRaw.Take(PositionLength).Any(coordinate => !int.TryParse(coordinate, out _)))
-            throw new InvalidRobotInputException();
-
         if (robotRaw.Skip(PositionLength).Take(RobotDirectionLength)
             .Any(direction => !_directions.ContainsKey(direction.ToLower())))
             throw new InvalidRobotInputException();
 
-        var coordinates = robotRaw.Take(PositionLength).Select(int.Parse).ToArray();
         var direction = robotRaw.Skip(PositionLength).Take(RobotDirectionLength).FirstOrDefault();
+        
+        var coordinates = TryTransformToCoordinates<InvalidRobotInputException>(robotRaw.Take(PositionLength));
 
         _parserOutputModel.Robots.Add(
             new Robot(Guid.NewGuid(), new Position(coordinates.FirstOrDefault(), coordinates.LastOrDefault()),
@@ -176,6 +172,20 @@ public class InputParser
     }
 
     private DirectionType ParseDirectionType(string input) => _directions[input.ToLower()];
+
+    private IReadOnlyCollection<int> TryTransformToCoordinates<TInputException>(IEnumerable<string> coordinatesRaw)
+        where TInputException : InvalidInputException, new()
+    {
+        if (coordinatesRaw.Any(coordinate => !int.TryParse(coordinate, out _)))
+            throw new TInputException();
+
+        IReadOnlyCollection<int> coordinates = coordinatesRaw.Select(int.Parse).ToArray();
+
+        if (coordinates.Any(coordinate => coordinate > CoordinateMaximumValue))
+            throw new InvalidCoordinateInputException();
+
+        return coordinates;
+    }
 
     private IMovement ParseMovement(char input) =>
         input.ToString().ToLower() switch
