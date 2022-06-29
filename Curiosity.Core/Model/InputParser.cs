@@ -130,7 +130,7 @@ public class InputParser
             throw new InvalidRobotInputException();
 
         if (robotRaw.Skip(PositionLength).Take(RobotDirectionLength)
-            .Any(direction => !_directions.ContainsKey(direction)))
+            .Any(direction => !_directions.ContainsKey(direction.ToLower())))
             throw new InvalidRobotInputException();
 
         var coordinates = robotRaw.Take(PositionLength).Select(int.Parse).ToArray();
