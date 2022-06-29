@@ -145,12 +145,7 @@ public class InputParser
         if (string.IsNullOrWhiteSpace(input))
             throw new InvalidRobotMovementsException();
 
-        var movementList = input.Split(InputSeparator);
-
-        if (!movementList.Any())
-            throw new InvalidRobotMovementsException();
-
-        if (movementList.Length > MovementMaximumCount)
+        if (input.Length > MovementMaximumCount)
             throw new RobotMovementsMaximumCountOverflowException();
 
         if (input.Any(x => !_movements.Contains(x.ToString().ToLower())))
